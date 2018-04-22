@@ -114,6 +114,7 @@ let resetTimer = function () {
   timerState = 'reset';
   pomodoroState = 'Work';
   circle.animate(0);
+  setColorTheme('red');
   updateTimerElement();
 };
 
