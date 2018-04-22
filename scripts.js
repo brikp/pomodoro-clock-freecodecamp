@@ -1,24 +1,27 @@
 const TIME_INCREMENT_VALUE = 60; // time change on button press in seconds
 const TIMER_STATES = ['started', 'stopped', 'reset']; // available timer states
-const POMODORO_STATES = ['work', 'break'];
+const POMODORO_STATES = ['Work', 'Break'];
 
 let timerState = 'reset';
-let pomodoroState = 'work'; 
-let timerValue = 25 * 60; 
+let pomodoroState = 'Work'; 
+
 let timer;
 
-let breakTime = 1 * 60; // break time in seconds
+let breakTime = 5 * 60; // break time in seconds
 let workTime = 25 * 60; // work time in seconds
+let timerValue = workTime; 
+let startedTimerLength = workTime;
 
-let timerElement = document.getElementById('timer');
 let workTimeElement = document.getElementById('work-time');
 let breakTimeElement = document.getElementById('break-time');
+
+let circle;
 
 let processTimer = function () {
   if (timerState == 'started') {
     if (timerValue <= 0) {
       changePomodoroState();
-      updateTimerElement()
+      updateTimerElement();
     }
     else {
       timerSecondElapsed();
@@ -28,12 +31,18 @@ let processTimer = function () {
 };
 
 let changePomodoroState = function () {
-  if (pomodoroState == 'work') {
-    pomodoroState = 'break';
+  if (pomodoroState == 'Work') {
+    pomodoroState = 'Break';
     timerValue = breakTime;
+    startedTimerLength = breakTime;
+    circle.animate(0);
+    
   } else {
-    pomodoroState = 'work';
+    pomodoroState = 'Work';
     timerValue = workTime;
+    startedTimerLength = workTime;
+    
+    circle.animate(0);
   }
 };
 
@@ -43,6 +52,7 @@ let changeWorkTime = function (value) {
     workTime = 0;
   if (timerState == 'reset') {
     timerValue = workTime;
+    startedTimerLength = workTime;
     updateTimerElement();
   }
   updateWorkTimeElement();
@@ -57,7 +67,13 @@ let changeBreakTime = function (value) {
 };
 
 let timerSecondElapsed = function () {
+  if (pomodoroState == 'Break')
+    circle.path.setAttribute('stroke', '#0fa71c');
+  if (pomodoroState == 'Work')
+    circle.path.setAttribute('stroke', '#c21414');
   timerValue -= 1;
+  let progress = 1 - (timerValue / startedTimerLength);
+  circle.animate(progress);
 };
 
 let startTimer = function () {
@@ -73,8 +89,10 @@ let stopTimer = function () {
 let resetTimer = function () {
   stopTimer();
   timerValue = workTime;
+  startedTimerLength = workTime;
   timerState = 'reset';
-  pomodoroState = 'work';
+  pomodoroState = 'Work';
+  circle.animate(0);
   updateTimerElement();
 };
 
@@ -90,7 +108,15 @@ let updateTimerElement = function () {
   let seconds = timerValue % 60;
   if (seconds < 10)
     seconds = '0' + seconds;
-  timerElement.textContent = `${pomodoroState}: ${minutes}:${seconds}`;
+  
+  let stateText;
+  if (timerState == 'reset') 
+    stateText = 'Click to start timer';
+  else if (pomodoroState == 'Work')
+    stateText = 'Time to work!';
+  else 
+    stateText = 'Break time';
+  circle.setText('<p id="pomodoro-state">' + stateText + '</p><hr><p id="time-left">' + minutes + ':' + seconds + '</p>');
 };
 
 let updateBreakTimeElement = function () {
@@ -98,7 +124,7 @@ let updateBreakTimeElement = function () {
   let seconds = breakTime % 60;
   if (seconds < 10)
     seconds = '0' + seconds;
-  breakTimeElement.textContent = `Break time: ${minutes}:${seconds}`;
+  breakTimeElement.textContent = `${minutes}:${seconds}`;
 };
 
 let updateWorkTimeElement = function () {
@@ -107,14 +133,25 @@ let updateWorkTimeElement = function () {
   if (seconds < 10)
     seconds = '0' + seconds;
     
-  workTimeElement.textContent = `Work time: ${minutes}:${seconds}`;
+  workTimeElement.textContent = `${minutes}:${seconds}`;
 };
 
 let bindEventListeners = function () {
+
+  circle = new ProgressBar.Circle('#progress', {
+    strokeWidth: 2.5,
+    color: 'red',
+    easing: 'easeInOut',
+    duration: 250,
+    text: {
+      autoStyleContainer: false
+    },
+  });
+
   updateTimerElement();
   updateBreakTimeElement();
   updateWorkTimeElement();
-  document.getElementById('toggle-timer').addEventListener('click', () => toggleTimer());
+  document.getElementById('progress').addEventListener('click', () => toggleTimer());
   document.getElementById('reset-timer').addEventListener('click', () => resetTimer());
   document.getElementById('work-time-minus').addEventListener('click', () => changeWorkTime(-1));
   document.getElementById('work-time-plus').addEventListener('click', () => changeWorkTime(1));

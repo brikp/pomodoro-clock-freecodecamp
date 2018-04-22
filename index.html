@@ -10,32 +10,68 @@
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
     <!-- Latest compiled and minified JavaScript -->
+    <link href='https://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
   </head>
 
-  <body>
-    <div>
-      <button id="break-time-minus">-</button>
-      <button id="break-time-plus">+</button>
-      <p id="break-time">Break time: 0:05</p>
+  <body class="text-light">
+
+    <div class="container-fluid w-75 mt-3">
+
+        <div class="row justify-content-center">
+            <h2>Pomodoro clock</h>
+          </div>
+
+      <div class="row justify-content-center mt-4">
+        
+        <div class="col">
+          <div class="row justify-content-center">
+              <p class="description-text">Break</p>
+          </div>
+          <div class="row justify-content-center">
+              <i id="break-time-minus" class="fas fa-angle-left"></i>
+              <p id="break-time" class="mx-3 time-text">5:00</p>
+              <i id="break-time-plus" class="fas fa-angle-right"></i>
+          </div>
+        </div>
+
+        <div class="col">
+            <div class="row justify-content-center">
+                <p class="description-text">Work</p>
+            </div>
+            <div class="row justify-content-center">
+                <i id="work-time-minus" class="fas fa-angle-left"></i>
+              <p id="work-time" class="mx-3 time-text">25:00</p>
+              <i id="work-time-plus" class="fas fa-angle-right"></i>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="progress progress-work" id="progress"></div>
+      </div>
+
+      <div class="row justify-content-center mt-2">
+          <i id="reset-timer" class="fas fa-redo-alt"></i>
+      </div>
+
+      <div class="row justify-content-center mt-5">
+          <p class="small"><a target="blank" href="https://github.com/brikp/pomodoro-clock-freecodecamp/"><i id="github-icon" class="fab fa-github"></i></a>  Created by <a target="blank" href="https://github.com/brikp">Bartek Karczmarczyk</a> using <a target="blank" href="https://getbootstrap.com/">bootstrap</a>, <a target="blank" href="https://fontawesome.com/">Font Awesome</a> and <a target="blank" href="https://kimmobrunfeldt.github.io/progressbar.js/">progressbar.js</a>.</p>
+      </div>
+      <div class="row justify-content-center">
+          
+      </div>
       
-    </div>
-    <div>
-      <button id="work-time-minus">-</button>
-      <button id="work-time-plus">+</button>
-      <p id="work-time">Work time: 0:15</p>
-    </div>
-    <div>
-      <p id="timer">15</p>
-      <button id="toggle-timer">Start/Stop</button>
-      <button id="reset-timer">Reset</button>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.1/progressbar.min.js'></script>
     <script src="scripts.js"></script>
   </body>
 </html>
