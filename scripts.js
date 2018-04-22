@@ -37,7 +37,7 @@ let changePomodoroState = function () {
   if (pomodoroState == 'Work') {
     if (timerValue == 0) {
       setColorTheme('green');
-      circle.animate(0);
+      circle.set(0);
     }
     
     pomodoroState = 'Break';
@@ -48,7 +48,7 @@ let changePomodoroState = function () {
   } else {
     if (timerValue == 0) {
       setColorTheme('red');
-      circle.animate(0);
+      circle.set(0);
     }
 
     pomodoroState = 'Work';
