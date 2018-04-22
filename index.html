@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Pomodoro clock</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+  </head>
+
+  <body>
+    <div>
+      <button id="break-time-minus">-</button>
+      <button id="break-time-plus">+</button>
+      <p id="break-time">Break time: 0:05</p>
+      
+    </div>
+    <div>
+      <button id="work-time-minus">-</button>
+      <button id="work-time-plus">+</button>
+      <p id="work-time">Work time: 0:15</p>
+    </div>
+    <div>
+      <p id="timer"></p>
+      <button id="start-timer">Start</button>
+      <button id="pause-timer">Pause</button>
+      <button id="reset-timer">Reset</button>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="scripts.js"></script>
+  </body>
+</html>
