@@ -1,9 +1,12 @@
 const TIME_INCREMENT_VALUE = 60; // time change on button press in seconds
 const TIMER_STATES = ['started', 'stopped', 'reset']; // available timer states
 const POMODORO_STATES = ['Work', 'Break'];
+const RED = '#c21414';
+const GREEN = '#0fa71c';
 
 let timerState = 'reset';
 let pomodoroState = 'Work'; 
+let lastFrameOfState = false;
 
 let timer;
 
@@ -32,17 +35,25 @@ let processTimer = function () {
 
 let changePomodoroState = function () {
   if (pomodoroState == 'Work') {
+    if (timerValue == 0) {
+      setColorTheme('green');
+      circle.animate(0);
+    }
+    
     pomodoroState = 'Break';
     timerValue = breakTime;
     startedTimerLength = breakTime;
-    circle.animate(0);
+    
     
   } else {
+    if (timerValue == 0) {
+      setColorTheme('red');
+      circle.animate(0);
+    }
+
     pomodoroState = 'Work';
     timerValue = workTime;
     startedTimerLength = workTime;
-    
-    circle.animate(0);
   }
 };
 
@@ -67,13 +78,23 @@ let changeBreakTime = function (value) {
 };
 
 let timerSecondElapsed = function () {
+  if ( pomodoroState == 'Work') { 
+    setColorTheme('red');
+  }
+  if (pomodoroState == 'Break') { 
+    setColorTheme('green');
+  }
+  /*
   if (pomodoroState == 'Break')
-    circle.path.setAttribute('stroke', '#0fa71c');
+    circle.path.setAttribute('stroke', GREEN);
   if (pomodoroState == 'Work')
-    circle.path.setAttribute('stroke', '#c21414');
+    circle.path.setAttribute('stroke', RED);
+    */
   timerValue -= 1;
   let progress = 1 - (timerValue / startedTimerLength);
+  
   circle.animate(progress);
+    
 };
 
 let startTimer = function () {
@@ -110,13 +131,18 @@ let updateTimerElement = function () {
     seconds = '0' + seconds;
   
   let stateText;
+  let divider = '<hr id="divider" class="red-hr">';
   if (timerState == 'reset') 
     stateText = 'Click to start timer';
-  else if (pomodoroState == 'Work')
+  else if (pomodoroState == 'Work') {
     stateText = 'Time to work!';
-  else 
+    divider = '<hr id="divider" class="red-hr">'
+  }
+  else {
     stateText = 'Break time';
-  circle.setText('<p id="pomodoro-state">' + stateText + '</p><hr><p id="time-left">' + minutes + ':' + seconds + '</p>');
+    divider = '<hr id="divider" class="green-hr">'
+  }
+  circle.setText('<p id="pomodoro-state">' + stateText + '</p>' + divider + '<p id="time-left">' + minutes + ':' + seconds + '</p>');
 };
 
 let updateBreakTimeElement = function () {
@@ -136,6 +162,98 @@ let updateWorkTimeElement = function () {
   workTimeElement.textContent = `${minutes}:${seconds}`;
 };
 
+let setColorTheme = function (color) {
+
+  let hrTag = document.getElementById('divider');
+  let aTags = Array.prototype.slice.call(document.getElementsByTagName('a'));
+  let h2Tags = Array.prototype.slice.call(document.getElementsByTagName('h2'));
+  let timeTextTags = Array.prototype.slice.call(document.getElementsByClassName('time-text'));
+  let iTags = Array.prototype.slice.call(document.getElementsByTagName('i'));
+
+  if (color == 'red') {
+    circle.path.setAttribute('stroke', RED);
+    
+    if (hrTag.classList.contains('green-text')) {
+      hrTag.classList.remove('green-text');
+      hrTag.classList.add('red-text');
+    }
+    aTags.map((el) => {
+      if (el.classList.contains('green-text')) {
+        el.classList.remove('green-text');
+      }
+      el.classList.add('red-text');
+
+      if (el.classList.contains('green-link-hover')) {
+        el.classList.remove('green-link-hover');
+      }
+      el.classList.add('red-link-hover');
+    });
+
+    timeTextTags.map((el) => {
+      if (el.classList.contains('green-text')) {
+        el.classList.remove('green-text');
+      }
+      el.classList.add('red-text');
+    });
+
+    h2Tags.map((el) => {
+      if (el.classList.contains('green-text')) {
+        el.classList.remove('green-text');
+      }
+      el.classList.add('red-text');
+    });
+
+    iTags.map((el) => {
+      if (el.classList.contains('green-icon-hover')) {
+        el.classList.remove('green-icon-hover');
+      }
+      el.classList.add('red-icon-hover');
+    });
+    
+  }
+
+  if (color == 'green') {
+    circle.path.setAttribute('stroke', GREEN);
+
+    if (hrTag.classList.contains('red-text')) {
+      hrTag.classList.remove('red-text');
+      hrTag.classList.add('green-text');
+    }
+    aTags.map((el) => {
+      if (el.classList.contains('red-text')) {
+        el.classList.remove('red-text');
+      }
+      el.classList.add('green-text');
+
+      if (el.classList.contains('red-link-hover')) {
+        el.classList.remove('red-link-hover');
+      }
+      el.classList.add('green-link-hover');
+    });
+
+    timeTextTags.map((el) => {
+      if (el.classList.contains('red-text')) {
+        el.classList.remove('red-text');
+      }
+      el.classList.add('green-text');
+    });
+
+    h2Tags.map((el) => {
+      if (el.classList.contains('red-text')) {
+        el.classList.remove('red-text');
+      }
+      el.classList.add('green-text');
+    });
+
+    iTags.map((el) => {
+      if (el.classList.contains('red-icon-hover')) {
+        el.classList.remove('red-icon-hover');
+      }
+      el.classList.add('green-icon-hover');
+    });
+  }
+};
+
 let bindEventListeners = function () {
 
   circle = new ProgressBar.Circle('#progress', {
@@ -147,6 +265,15 @@ let bindEventListeners = function () {
       autoStyleContainer: false
     },
   });
+
+  circle.setText('<hr id="divider" class="red-text">');
+
+  if (pomodoroState == 'Work') {
+    setColorTheme('red');
+  }
+  else {
+    setColorTheme('green');
+  }
 
   updateTimerElement();
   updateBreakTimeElement();

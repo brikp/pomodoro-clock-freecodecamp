@@ -1,3 +1,31 @@
+.green-text, .green-text-hover:hover, .green-icon-hover:hover {
+  color: #0fa71c;
+}
+
+.green-link-hover:hover {
+  color: #0c6b14;
+}
+
+.green-hr {
+  border-color: #0fa71c;
+  border-width: 2px; 
+  width: 75%;
+}
+
+.red-text, .red-text-hover:hover, .red-icon-hover:hover {
+  color: #c21414;
+}
+
+.red-link-hover:hover {
+  color: #921414;
+}
+
+.red-hr {
+  border-color: #c21414;
+  border-width: 2px; 
+  width: 75%;
+}
+
 body {
   background-color: #2e2e2e;
   font-family: 'Courgette', cursive;
@@ -16,32 +44,11 @@ i {
   font-size: 3.5em;
 }
 
-hr {
-  border-color: #c21414;
-  border-width: 2px; 
-  width: 75%;
-}
-
-i:hover {
-  color: #c21414;
-}
-
-a, h2, .time-text {
-  color: #c21414;
-}
-
-a:hover {
-  color: #921414;
-}
-
 #github-icon {
   font-size: 1.5em;
-  color: rgb(197, 197, 197);
 }
 
-#github-icon:hover {
-  color: #921414;
-}
+
 
 .progress:hover {
   background-color: #535353;
